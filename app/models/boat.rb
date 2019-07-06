@@ -14,7 +14,7 @@ class Boat < ActiveRecord::Base
   end
 
   def self.ship
-    # find and return boats 20 ft or longer
+    # find and return all boats 20 ft or longer
     where("length >= 20")
   end
 
@@ -25,7 +25,7 @@ class Boat < ActiveRecord::Base
   end
 
   def self.without_a_captain
-    # find and return boats with no captain associated to them
+    # find and return all boats with no captain associated to them
     where(captain_id: nil)
   end
 
@@ -40,18 +40,21 @@ class Boat < ActiveRecord::Base
     # regularly. Just know that we can get this out of the database in
     # milliseconds whereas it would take whole seconds for Ruby to do the same.
     #
-    # return boats that have 3 classifications by joining all classifications
+    # return all boats that have 3 classifications by joining all classifications
     # and then grouping records based on boat id, allowing for counting the
     # number of classifications associated with each boat
     joins(:classifications).group("boats.id").having("COUNT(*) = 3").select("boats.*")
   end
 
   def self.non_sailboats
-    #
+    # return all non-sailboats by finding boats that do not have a classification
+    # id that matches the classification id for sailboats
     where("id NOT IN (?)", self.sailboats.pluck(:id))
   end
 
   def self.longest
-    # order('length DESC').first
+    # return longest boat by organizing all boats in descending order by length
+    # and limiting results to the first only
+    order('length DESC').first
   end
 end
