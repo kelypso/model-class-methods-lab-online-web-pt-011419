@@ -8,8 +8,8 @@ class Captain < ActiveRecord::Base
   end
 
   def self.sailors
-    # return all unique sailboat captains (sailors) by finding boats that
-    # include a classification where the classification is sailboat
+    # return all unique sailors by finding boats that include a 
+    # classification where the classification is sailboat
     includes(boats: :classifications).where(classifications: {name: "Sailboat"}).distinct
   end
 
@@ -20,12 +20,13 @@ class Captain < ActiveRecord::Base
   end
 
   def self.talented_seafarers
+    # return all talented captains by finding those amongst the sailors who
     #
     where("id IN (?)", self.sailors.pluck(:id) & self.motorboat_operators.pluck(:id))
   end
 
   def self.non_sailors
-    #
+    # return all non-sailors by finding those who don't have an
     where.not("id IN (?)", self.sailors.pluck(:id))
   end
 
