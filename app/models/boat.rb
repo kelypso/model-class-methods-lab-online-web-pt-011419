@@ -53,7 +53,7 @@ class Boat < ActiveRecord::Base
   end
 
   def self.longest
-    # return longest boat by organizing all boats in descending order by length
+    # return longest boat by organizing all boats by length in descending order
     # and limiting results to the first only
     order('length DESC').first
   end
