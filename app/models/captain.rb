@@ -15,7 +15,7 @@ class Captain < ActiveRecord::Base
 
   def self.motorboat_operators
     # return all motorboat captains by finding boats that include a
-    # classification where the classification is sailboat
+    # classification where the classification is motorboat
     includes(boats: :classifications).where(classifications: {name: "Motorboat"})
   end
 
