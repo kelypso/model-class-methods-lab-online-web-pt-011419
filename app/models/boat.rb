@@ -30,7 +30,9 @@ class Boat < ActiveRecord::Base
   end
 
   def self.sailboats
-    # includes(:classifications).where(classifications: { name: 'Sailboat' })
+    # return all sailboats by ensuring a classification is included
+    # and then finding only the boats of the specified classification
+    includes(:classifications).where(classifications: { name: 'Sailboat' })
   end
 
   def self.with_three_classifications
@@ -38,11 +40,15 @@ class Boat < ActiveRecord::Base
     # regularly. Just know that we can get this out of the database in
     # milliseconds whereas it would take whole seconds for Ruby to do the same.
     #
-    # joins(:classifications).group("boats.id").having("COUNT(*) = 3").select("boats.*")
+    # return boats that have 3 classifications by joining all classifications
+    # and then grouping records based on boat id, allowing for counting the
+    # number of classifications associated with each boat
+    joins(:classifications).group("boats.id").having("COUNT(*) = 3").select("boats.*")
   end
 
   def self.non_sailboats
-    # where("id NOT IN (?)", self.sailboats.pluck(:id))
+    #
+    where("id NOT IN (?)", self.sailboats.pluck(:id))
   end
 
   def self.longest
