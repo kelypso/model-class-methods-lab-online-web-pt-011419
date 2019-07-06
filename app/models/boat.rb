@@ -19,13 +19,14 @@ class Boat < ActiveRecord::Base
   end
 
   def self.last_three_alphabetically
-    # return last 2 boats alphabetically by organizing all boats
-    # by name in descending order and limiting results to only 3
+    # return last 3 boats alphabetically by organizing all boats
+    # by name, in descending order, and limiting results to only 3
     all.order(name: :desc).limit(3)
   end
 
   def self.without_a_captain
-    # where(captain_id: nil)
+    # find and return boats with no captain associated to them
+    where(captain_id: nil)
   end
 
   def self.sailboats
